@@ -1,10 +1,20 @@
-import { Action, ActionPanel, Form, Icon, Toast, showToast } from "@raycast/api";
+import {
+  Action,
+  ActionPanel,
+  Form,
+  Icon,
+  Toast,
+  showToast,
+} from "@raycast/api";
 import { useState } from "react";
 
 const MAX_LEN = 65536;
 
 function escapeXml(input: string): string {
-  return input.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function decodeXmlLayer(input: string): string {
@@ -49,14 +59,17 @@ async function callRemoteTypograf(
     `</soap:Body>\n` +
     `</soap:Envelope>`;
 
-  const res = await fetch("https://typograf.artlebedev.ru/webservices/typograf.asmx", {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/xml",
-      SOAPAction: '"http://typograf.artlebedev.ru/webservices/ProcessText"',
+  const res = await fetch(
+    "https://typograf.artlebedev.ru/webservices/typograf.asmx",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/xml",
+        SOAPAction: '"http://typograf.artlebedev.ru/webservices/ProcessText"',
+      },
+      body: soapBody,
     },
-    body: soapBody,
-  });
+  );
 
   const raw = await res.text();
   const startTag = "<ProcessTextResult>";
@@ -78,7 +91,11 @@ export default function Command() {
   async function onSubmit(values: { source: string }) {
     let text = values.source ?? "";
     if (!text) {
-      await showToast({ style: Toast.Style.Failure, title: "Нет текста", message: "Вставьте текст для «Типографа»" });
+      await showToast({
+        style: Toast.Style.Failure,
+        title: "Нет текста",
+        message: "Вставьте текст для «Типографа»",
+      });
       return;
     }
 
@@ -92,12 +109,25 @@ export default function Command() {
     }
 
     try {
-      const result = await callRemoteTypograf(text, { entityType: 1, useBr: false, useP: false, maxNobr: 0 });
+      const result = await callRemoteTypograf(text, {
+        entityType: 1,
+        useBr: false,
+        useP: false,
+        maxNobr: 0,
+      });
       setOutput(result);
-      await showToast({ style: Toast.Style.Success, title: "Готово", message: "Текст типографирован" });
+      await showToast({
+        style: Toast.Style.Success,
+        title: "Готово",
+        message: "Текст типографирован",
+      });
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      await showToast({ style: Toast.Style.Failure, title: "Ошибка типографа", message });
+      await showToast({
+        style: Toast.Style.Failure,
+        title: "Ошибка типографа",
+        message,
+      });
     }
   }
 
@@ -106,13 +136,34 @@ export default function Command() {
       navigationTitle='- Это "Типограф"? — Нет, это «Типограф»!'
       actions={
         <ActionPanel>
-          <Action.SubmitForm title="Оттипографить" onSubmit={onSubmit} icon={Icon.Text} />
-          <Action.CopyToClipboard title="Скопировать" content={output} shortcut={{ modifiers: ["cmd"], key: "c" }} />
+          <Action.SubmitForm
+            title="Оттипографить"
+            onSubmit={onSubmit}
+            icon={Icon.Text}
+          />
+          <Action.CopyToClipboard
+            title="Скопировать"
+            content={output}
+            shortcut={{ modifiers: ["cmd"], key: "c" }}
+          />
         </ActionPanel>
       }
     >
-      <Form.TextArea id="source" title="Текст:" value={input} onChange={setInput} enableMarkdown={false} autoFocus />
-      <Form.TextArea id="result" title="Результат:" value={output} onChange={() => {}} enableMarkdown={false} />
+      <Form.TextArea
+        id="source"
+        title="Текст:"
+        value={input}
+        onChange={setInput}
+        enableMarkdown={false}
+        autoFocus
+      />
+      <Form.TextArea
+        id="result"
+        title="Результат:"
+        value={output}
+        onChange={() => {}}
+        enableMarkdown={false}
+      />
       <Form.Description title="Лимит:" text={`${MAX_LEN} символов`} />
     </Form>
   );

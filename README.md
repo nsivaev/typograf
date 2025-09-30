@@ -1,9 +1,17 @@
 # Typograf
 
-В жизни каждого порядочного веб-мастера наступает момент, когда он всерьез задумывается над экранной типографикой.
+Raycast extension that sends text to the Art. Lebedev Typograf web service and returns a cleaned, typographically correct result (quotes, dashes, non‑breaking spaces, etc.).
 
-С одной стороны, ему хочется, чтобы сверстанный текст хорошо смотрелся в окне браузера. А для этого нужно вместо знаков дюйма поставить нормальные кавычки («елочки» и „лапки“), поубивать лишние пробелы, в нужных местах поменять дефисы на тире, неразрывным пробелом «привязать» все короткие союзы и предлоги к следующим за ними словам и произвести кучу других операций. С другой стороны, очень не хочется расставлять все эти значки, кавычки и неразрывные пробелы вручную.
+## Usage
 
-Студия Лебедева первой в интернете заявила о важности применения экранной типографики при верстке материалов. С 2000 года тексты всех создаваемых Студией Лебедева сайтов приводятся в порядок при помощи программы «Типограф». С 2002 года программа бесплатно доступна на нашем сайте.
+1. Open the command and paste your text into the Text field.
+2. Submit the form to typograf the text.
+3. Copy the result from the Result field or via the Copy action.
 
-Подробнее о принципах экранной типографики — в § 62 «Ководства».
+Notes:
+- The service response is cleaned from HTML while preserving HTML entities.
+- The maximum input length is 65,536 characters; longer text is truncated.
+
+## License
+
+MIT

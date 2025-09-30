@@ -30,7 +30,9 @@ declare namespace Preferences {
   /** Paragraph open tag - Opening tag for each paragraph when wrapping is enabled */
   "pOpen": string,
   /** Paragraph close tag - Closing tag for each paragraph when wrapping is enabled */
-  "pClose": string
+  "pClose": string,
+  /** Show browser preview - Display a plain-text preview as it would look in a browser */
+  "showPreview": boolean
 }
 }
 

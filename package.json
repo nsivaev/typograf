@@ -26,11 +26,26 @@
           "required": true,
           "default": "french",
           "data": [
-            { "title": "French (guillemets)", "value": "french" },
-            { "title": "German (curly)", "value": "german" },
-            { "title": "English double", "value": "english-double" },
-            { "title": "Programmer", "value": "programmer" },
-            { "title": "English single", "value": "english-single" }
+            {
+              "title": "French (guillemets)",
+              "value": "french"
+            },
+            {
+              "title": "German (curly)",
+              "value": "german"
+            },
+            {
+              "title": "English double",
+              "value": "english-double"
+            },
+            {
+              "title": "Programmer",
+              "value": "programmer"
+            },
+            {
+              "title": "English single",
+              "value": "english-single"
+            }
           ]
         },
         {
@@ -41,11 +56,26 @@
           "required": true,
           "default": "german",
           "data": [
-            { "title": "French (guillemets)", "value": "french" },
-            { "title": "German (curly)", "value": "german" },
-            { "title": "English double", "value": "english-double" },
-            { "title": "Programmer", "value": "programmer" },
-            { "title": "English single", "value": "english-single" }
+            {
+              "title": "French (guillemets)",
+              "value": "french"
+            },
+            {
+              "title": "German (curly)",
+              "value": "german"
+            },
+            {
+              "title": "English double",
+              "value": "english-double"
+            },
+            {
+              "title": "Programmer",
+              "value": "programmer"
+            },
+            {
+              "title": "English single",
+              "value": "english-single"
+            }
           ]
         },
         {
@@ -56,9 +86,18 @@
           "required": true,
           "default": "named",
           "data": [
-            { "title": "Named entities (&laquo;)", "value": "named" },
-            { "title": "Numeric entities (&#171;)", "value": "numeric" },
-            { "title": "Unicode characters («)", "value": "unicode" }
+            {
+              "title": "Named entities (&laquo;)",
+              "value": "named"
+            },
+            {
+              "title": "Numeric entities (&#171;)",
+              "value": "numeric"
+            },
+            {
+              "title": "Unicode characters («)",
+              "value": "unicode"
+            }
           ]
         },
         {
@@ -104,6 +143,15 @@
           "placeholder": "</p>",
           "default": "</p>",
           "description": "Closing tag for each paragraph when wrapping is enabled",
+          "required": true
+        },
+        {
+          "name": "showPreview",
+          "title": "Show browser preview",
+          "description": "Display a plain-text preview as it would look in a browser",
+          "type": "checkbox",
+          "default": false,
+          "label": "Show preview",
           "required": true
         }
       ]

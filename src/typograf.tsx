@@ -15,6 +15,7 @@ interface Preferences {
     useP?: boolean;
     pOpen?: string;
     pClose?: string;
+    showPreview?: boolean;
 }
 
 function escapeXml(input: string): string {
@@ -249,6 +250,7 @@ async function callRemoteTypograf(
 
 export default function Command() {
     const [output, setOutput] = useState("");
+    const [preview, setPreview] = useState("");
     const prefs = getPreferenceValues<Preferences>();
 
     async function onSubmit(values: { source: string }) {
@@ -320,6 +322,24 @@ export default function Command() {
                 formatted = cleanParagraphs(formatted, pOpen, pClose, br);
             }
             setOutput(formatted);
+            // Optionally build non-editable browser-like preview
+            if (prefs.showPreview) {
+                const br = prefs.brTag || "<br />";
+                const pOpen = prefs.pOpen || "<p>";
+                const pClose = prefs.pClose || "</p>";
+                const brEsc = br.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                const pOpenEsc = pOpen.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                const pCloseEsc = pClose.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+                let browserView = convertEntities(normalized, "unicode");
+                browserView = browserView
+                    .replace(new RegExp(brEsc, "gi"), "\n")
+                    .replace(new RegExp(pOpenEsc, "gi"), "")
+                    .replace(new RegExp(pCloseEsc, "gi"), "\n\n");
+                browserView = browserView.replace(/<[^>]+>/g, "").replace(/\s+$/g, "").replace(/^\s+/g, "");
+                setPreview(browserView);
+            } else {
+                setPreview("");
+            }
             await showToast({
                 style: Toast.Style.Success,
                 title: "Done",
@@ -363,10 +383,18 @@ export default function Command() {
                 id="result"
                 title="Result:"
                 value={output}
-                onChange={() => {
-                }}
+                onChange={() => {}}
                 enableMarkdown={false}
             />
+            {prefs.showPreview ? (
+                <Form.TextArea
+                    id="preview"
+                    title="Browser Preview:"
+                    value={preview}
+                    onChange={() => {}}
+                    enableMarkdown={false}
+                />
+            ) : null}
             <Form.Description title="Limit:" text={`${MAX_LEN} characters`}/>
         </Form>
     );
